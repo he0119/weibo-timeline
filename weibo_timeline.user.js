@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.1.1
+// @version      0.1.2
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
 // @match        https://weibo.com/*
+// @match        https://www.weibo.com/*
 // @grant        none
 // ==/UserScript==
 
