@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.2.0
+// @version      0.2.1
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
@@ -14,28 +14,42 @@
     'use strict';
 
     // 判断是否是新版微博
-    // 不太清楚微博是怎么来切换版本的
-    var new_version = window.location.pathname == '/';
+    var isNewVersion = document.querySelector('a.gn_name') == null;
 
-    if (!new_version) {
+    if (!isNewVersion) {
         // 老版微博
-
-        var user_id = document.querySelector('a.gn_name').href.split('/')[3];
-        var is_home = window.location.pathname.split('/')[3] == 'home';
-        var is_new = window.location.search.indexOf('is_new') != -1;
+        var userId = document.querySelector('a.gn_name').href.split('/')[3];
+        var isHome = window.location.pathname.split('/')[3] == 'home';
+        var isNew = window.location.search.indexOf('is_new') != -1;
         // 自动切换到最新微博
-        if (is_home && !is_new) {
+        if (isHome && !isNew) {
             window.location = '/home?is_new=1';
         }
         // 替换左上角的微博图标点击后网址为最新微博
-        document.querySelector('a.box').setAttribute('href', '/u/' + user_id + '/home?is_new=1');
+        document.querySelector('a.box').setAttribute('href', '/u/' + userId + '/home?is_new=1');
     }
     else {
         // 新版微博
-
-        // 当页面加载后自动单击最新微博
         window.addEventListener('load', function () {
-            document.querySelector('div[title="最新微博"]').click();
+            // 侧边栏的最新微博按钮
+            var latestButton = document.querySelector('div[title="最新微博"]');
+            function switchToLatest() {
+                latestButton.click();
+            }
+            // 首页按钮
+            var homeButton = document.querySelector('div[title="首页"]');
+            // 左上角的图标
+            var homeIcon = document.querySelector('span[aria-label="Weibo"]');
+
+            // 替换首页按钮点击事件
+            homeButton.addEventListener('click', (e) => { switchToLatest(); e.stopPropagation(); }, true);
+            // 替换左上角的微博图标点击事件
+            homeIcon.addEventListener('click', (e) => { switchToLatest(); e.stopPropagation(); }, true);
+
+            // 如果在微博主页自动切换到最新微博
+            if (window.location.pathname == '/') {
+                switchToLatest();
+            }
         }, false);
     }
 })();
