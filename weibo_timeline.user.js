@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.2.0
+// @version      0.2.1
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
@@ -14,8 +14,7 @@
     'use strict';
 
     // 判断是否是新版微博
-    // 不太清楚微博是怎么来切换版本的
-    var new_version = window.location.pathname == '/';
+    var new_version = document.querySelector('a.gn_name') == null;
 
     if (!new_version) {
         // 老版微博
@@ -30,7 +29,7 @@
         // 替换左上角的微博图标点击后网址为最新微博
         document.querySelector('a.box').setAttribute('href', '/u/' + user_id + '/home?is_new=1');
     }
-    else {
+    else if (window.location.pathname == '/') {
         // 新版微博
 
         // 当页面加载后自动单击最新微博
