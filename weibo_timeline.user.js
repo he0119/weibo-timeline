@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.2.1
+// @version      0.2.2
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
@@ -31,10 +31,16 @@
     else {
         // 新版微博
         window.addEventListener('load', function () {
-            // 侧边栏的最新微博按钮
-            var latestButton = document.querySelector('div[title="最新微博"]');
+            // 切换到最新微博
             function switchToLatest() {
-                latestButton.click();
+                // 侧边栏的最新微博按钮
+                var latestButton = document.querySelector('div[title="最新微博"]');
+                if (latestButton == null) {
+                    // 无法找到最新微博的按钮时，会尝试重新加载网页
+                    window.location = '/';
+                } else {
+                    latestButton.click();
+                }
             }
             // 首页按钮
             var homeButton = document.querySelector('div[title="首页"]');
@@ -48,7 +54,11 @@
 
             // 如果在微博主页自动切换到最新微博
             if (window.location.pathname == '/') {
-                switchToLatest();
+                // 有时候页面没有能完全加载
+                // 等待 500 毫秒，增加成功率
+                setTimeout(function(){
+                    switchToLatest();
+                }, 500);
             }
         }, false);
     }
