@@ -14,11 +14,10 @@
     'use strict';
 
     // 判断是否是新版微博
-    var new_version = document.querySelector('a.gn_name') == null;
+    var is_new_version = document.querySelector('a.gn_name') == null;
 
-    if (!new_version) {
+    if (!is_new_version) {
         // 老版微博
-
         var user_id = document.querySelector('a.gn_name').href.split('/')[3];
         var is_home = window.location.pathname.split('/')[3] == 'home';
         var is_new = window.location.search.indexOf('is_new') != -1;
@@ -29,12 +28,25 @@
         // 替换左上角的微博图标点击后网址为最新微博
         document.querySelector('a.box').setAttribute('href', '/u/' + user_id + '/home?is_new=1');
     }
-    else if (window.location.pathname == '/') {
+    else {
         // 新版微博
-
-        // 当页面加载后自动单击最新微博
         window.addEventListener('load', function () {
-            document.querySelector('div[title="最新微博"]').click();
+            // 侧边栏的最新微博按钮
+            var latest_button = document.querySelector('div[title="最新微博"]');
+            // 首页按钮
+            var home_button = document.querySelector('div[title="首页"]');
+            // 左上角的图标
+            var home_icon = document.querySelector('span[aria-label="Weibo"]');
+
+            // 替换首页按钮点击事件
+            home_button.addEventListener('click', (e) => { latest_button.click(); e.stopPropagation(); }, true);
+            // 替换左上角的微博图标点击事件
+            home_icon.addEventListener('click', (e) => { latest_button.click(); e.stopPropagation(); }, true);
+
+            // 如果在微博主页自动切换到最新微博
+            if (window.location.pathname == '/') {
+                latest_button.click();
+            }
         }, false);
     }
 })();
