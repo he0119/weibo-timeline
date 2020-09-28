@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.2.2
+// @version      0.2.3
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
@@ -43,7 +43,7 @@
                 }
             }
             // 首页按钮
-            var homeButton = document.querySelector('div[title="首页"]');
+            var homeButton = document.querySelector('div[aria-label="首页"]');
             // 左上角的图标
             var homeIcon = document.querySelector('span[aria-label="Weibo"]');
 
