@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         让微博按正确的时间线排序
 // @namespace    https://hehome.xyz/
-// @version      0.2.5
+// @version      0.2.6
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
 // @author       hemengyang
@@ -34,6 +34,9 @@
         // 首页按钮
         var homeButton = document.querySelector('div[aria-label="首页"]');
         if (homeButton !== null) {
+            // 通过 div[aria-label="首页"] 获取元素的父元素也能单击回到全部关注
+            // 需要替换那个元素，否则单击主页按钮边缘会回到全部关注而不是最新微博
+            homeButton = homeButton.parentElement
             // 替换首页按钮点击事件
             homeButton.addEventListener('click', (e) => { switchToLatest(); e.stopPropagation(); e.preventDefault(); }, true);
         }
