@@ -4,7 +4,7 @@
 // @version      0.2.6
 // @icon         https://weibo.com/favicon.ico
 // @description  自动切换到最新微博，恢复正确的时间线
-// @author       hemengyang
+// @author       uy/sun
 // @match        https://weibo.com/*
 // @match        https://www.weibo.com/*
 // @grant        none
